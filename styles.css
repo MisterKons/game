@@ -1,0 +1,112 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #222;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#gameContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#controlPanel {
+    width: 800px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#betAmountContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+#gameArea {
+    position: relative;
+    display: flex;
+}
+
+#gameCanvas {
+    width: 800px;
+    height: 800px;
+    background-color: #000;
+}
+
+#slotsContainer {
+    width: 800px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 3px; /* Move slots 3px lower */
+}
+
+.slot {
+    flex: 1;
+    margin: 0;
+    padding: 10px;
+    border: none;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.bounce {
+    animation: bounce 0.3s;
+}
+
+@keyframes bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.highlight {
+    animation: press 0.2s;
+}
+
+@keyframes press {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(30%); }
+    100% { transform: translateY(0); }
+}
+
+#historyContainer {
+    width: 200px;
+    margin-left: 10px;
+}
+
+#historyList {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: black;
+}
+
+#historyList li {
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: #444;
+    text-align: center;
+    border-radius: 5px;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+#historyList li.new {
+    transform: scale(1.1);
+}
+
+#historyList li.old {
+    background-color: #444;
+}
