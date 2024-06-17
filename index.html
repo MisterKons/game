@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plinko Game</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-
 </head>
 <body>
 <div id="gameContainer">
     <div id="controlPanel">
         <div id="betAmountContainer">
-            <label for="betAmount">Bet Amount</label>
+            <label for="betAmount">Bet Amount:</label>
             <input type="number" id="betAmount" value="10" min="1">
         </div>
         <div id="pointsContainer">
             <span>Points: </span><span id="points">5000</span>
         </div>
+        <button id="releaseButton" class="mobile-button">Release Ball</button>
     </div>
     <div id="gameArea">
         <canvas id="gameCanvas"></canvas>

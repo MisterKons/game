@@ -45,7 +45,7 @@ slotValues.forEach((value) => {
 
 // Create obstacles in a triangular pattern from top to bottom
 const rows = 12;  // Number of rows for obstacles
-const cols = 12;  // Number of columns for obstacles
+const cols = 13;  // Number of columns for obstacles
 const spacingX = canvas.width / cols;
 const spacingY = canvas.height / (rows + 1);
 
@@ -108,16 +108,26 @@ class Ball {
     }
 }
 
+// Release ball function
+function releaseBall() {
+    ballPrice = parseInt(betAmountElement.value, 10);
+    if (totalPoints - ballPrice >= 0) {
+        balls.push(new Ball(canvas.width / 2, 20, 10, 'white'));
+        totalPoints -= ballPrice;
+        updatePoints();
+    }
+}
+
 // Release ball on space bar press
 window.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
-        ballPrice = parseInt(betAmountElement.value, 10);
-        if (totalPoints - ballPrice >= 0) {
-            balls.push(new Ball(canvas.width / 2, 20, 10, 'white'));
-            totalPoints -= ballPrice;
-            updatePoints();
-        }
+        releaseBall();
     }
+});
+
+// Release ball on button click
+document.getElementById('releaseButton').addEventListener('click', () => {
+    releaseBall();
 });
 
 // Add score based on ball's landing position
