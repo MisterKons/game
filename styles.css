@@ -102,7 +102,11 @@ body {
     margin-left: 10px;
 
 }
-
+#points {
+    font-size: 24px; /* Adjust the size as needed */
+    font-weight: bold; /* Optional: make the text bold */
+    margin: 20px; /* Optional: add some margin */
+}
 #historyList {
     display: flex;
     flex-direction: column;

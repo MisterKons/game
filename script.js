@@ -3,18 +3,19 @@ const ctx = canvas.getContext('2d');
 canvas.width = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
 
-const slotValues = [33, 10, 5, 1.5, 1.2, 1.1, 0.2, 0.2, 0.5, 1.2, 1.5, 5, 10, 33];
+const slotValues = [33, 10, 5, 1.5, 1.2, 0.5, 0.2, 0.2, 0.5, 1.2, 1.5, 5, 10, 33];
 const slotsContainer = document.getElementById('slotsContainer');
 const pointsElement = document.getElementById('points');
 const betAmountElement = document.getElementById('betAmount');
 const historyList = document.getElementById('historyList');
+const ripples = [];
 let totalPoints = 5000;
 let ballPrice = 10;
 
 const obstacles = [];
 const balls = [];
-const gravity = 0.5;
-const friction = 0.98;
+const gravity = 0.51; // Simulating Earth's gravity
+let friction = 0.95; // Representing typical energy loss on bounce
 
 // Gradient function
 const getGradientColor = (value) => {
@@ -86,10 +87,13 @@ class Ball {
         obstacles.forEach(obstacle => {
             if (Math.hypot(this.x - obstacle.x, this.y - obstacle.y) < this.radius + 5) {
                 const angle = Math.atan2(this.y - obstacle.y, this.x - obstacle.x);
-                this.dx = Math.cos(angle) * 2;
-                this.dy = Math.sin(angle) * 2;
+                // Adjusting bounce power
+                const bouncePower = 2; // Increase this value for stronger bounces
+                this.dx = Math.cos(angle) * bouncePower;
+                this.dy = Math.sin(angle) * bouncePower;
                 bounceSound.currentTime = 0;  // Reset sound to the beginning
                 bounceSound.play();
+                ripples.push(new Ripple(obstacle.x, obstacle.y));
             }
         });
 
@@ -112,9 +116,32 @@ class Ball {
 function releaseBall() {
     ballPrice = parseInt(betAmountElement.value, 10);
     if (totalPoints - ballPrice >= 0) {
-        balls.push(new Ball(canvas.width / 2, 20, 10, 'white'));
+        balls.push(new Ball(canvas.width / 2, 20, 10, 'red'));
         totalPoints -= ballPrice;
         updatePoints();
+    }
+}
+
+// Ripple class for the ripple effect
+class Ripple {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.radius = 2; // Start smaller
+        this.alpha = 1;
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255, 255, 255, ${this.alpha})`;
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    update() {
+        this.radius += 0.2; // Grow slower
+        this.alpha -= 0.02;
     }
 }
 
@@ -154,7 +181,12 @@ function addScore(x) {
 
 // Update points display
 function updatePoints() {
-    pointsElement.textContent = totalPoints;
+    pointsElement.textContent = formatNumber(totalPoints);
+}
+
+// Format number with thousands separator
+function formatNumber(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 // Update hit history
@@ -189,6 +221,15 @@ function animate() {
     });
 
     balls.forEach(ball => ball.update());
+
+    // Update and draw ripples
+    for (let i = ripples.length - 1; i >= 0; i--) {
+        ripples[i].update();
+        ripples[i].draw();
+        if (ripples[i].alpha <= 0) {
+            ripples.splice(i, 1);
+        }
+    }
 
     requestAnimationFrame(animate);
 }
