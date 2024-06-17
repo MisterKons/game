@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 canvas.width = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
 
-const slotValues = [33, 10, 5, 1.5, 1.2, 1.1, 0.2, 0.2, 0.5, 1.2, 1.5, 5, 10, 33];
+const slotValues = [33, 10, 5, 1.5, 1.2, 0.5, 0.2, 0.2, 0.5, 1.2, 1.5, 5, 10, 33];
 const slotsContainer = document.getElementById('slotsContainer');
 const pointsElement = document.getElementById('points');
 const betAmountElement = document.getElementById('betAmount');
