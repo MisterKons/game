@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 canvas.width = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
 
-const slotValues = [33, 10, 5, 1.5, 1.2, 0.5, 0.2, 0.2, 0.5, 1.2, 1.5, 5, 10, 33];
+const slotValues = [33, 10, 5, 1.5, 1.2, 1.1, 0.2, 0.2, 0.5, 1.2, 1.5, 5, 10, 33];
 const slotsContainer = document.getElementById('slotsContainer');
 const pointsElement = document.getElementById('points');
 const betAmountElement = document.getElementById('betAmount');
@@ -27,7 +27,6 @@ const getGradientColor = (value) => {
     return `rgb(${red},${green},${blue})`;
 };
 
-
 // Load sounds
 const bounceSound = new Audio('bounce.mp3');
 const slotSound = new Audio('slot.mp3');
@@ -46,7 +45,7 @@ slotValues.forEach((value) => {
 
 // Create obstacles in a triangular pattern from top to bottom
 const rows = 12;  // Number of rows for obstacles
-const cols = 13;  // Number of columns for obstacles
+const cols = 12;  // Number of columns for obstacles
 const spacingX = canvas.width / cols;
 const spacingY = canvas.height / (rows + 1);
 
@@ -185,4 +184,3 @@ function animate() {
 }
 
 animate();
-
