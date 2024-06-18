@@ -4,15 +4,19 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #222;
-    color: white;
-    font-family: mo, sans-serif;
+    background-color: #1c1c1e;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
 }
 
 #gameContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: #2c2c2e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #controlPanel {
@@ -20,71 +24,93 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
+
 #releaseButton {
     padding: 10px 20px;
-    background-color: #ff5722;
-
-
-
-
-
+    background-color: #ff3b30;
     border: none;
-    border-radius: 5px;
-    color: white;
+    border-radius: 10px;
+    color: balck;
     font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
+#releaseButton:hover {
+    background-color: #ff2d1c;
+}
+
 #betAmountContainer {
     display: flex;
     flex-direction: column;
+    font-size: 18px;
+}
+
+#betAmount {
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid #ff3b30;
+    background: #1c1c1e;
+    color: white;
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+#pointsContainer {
+    font-size: 18px;
+}
+
+#points {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+#mainGameArea {
+    display: flex;
+    width: 100%;
 }
 
 #gameArea {
+    flex: 85%;
     position: relative;
     display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 #gameCanvas {
-    width: 800px;
-    height: 800px;
+    width: 100%;
     background-color: #000;
 }
 
 #slotsContainer {
-    width: 800px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     position: absolute;
-    bottom: 3px; /* Move slots 3px lower */
+    bottom: 0;
 }
 
 .slot {
     flex: 1;
-    margin: 0;
-    padding: 10px;
+    margin: 1px 1px;
+    padding: 9px;
     border: none;
     color: black;
+    font-weight: 700;
     font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
     text-align: center;
     border-radius: 10px;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-.bounce {
-    animation: bounce 0.3s;
-}
-
-@keyframes bounce {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
+.slot:hover {
+    transform: scale(1.1);
 }
 
 .highlight {
@@ -98,21 +124,25 @@ body {
 }
 
 #historyContainer {
-    width: 200px;
+    flex: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-left: 10px;
+    margin-right: 10px;
+    font-family: 'Roboto', sans-serif; /* Новый шрифт */
 
 }
-#points {
-    font-size: 24px; /* Adjust the size as needed */
-    font-weight: bold; /* Optional: make the text bold */
-    margin: 20px; /* Optional: add some margin */
-}
+
 #historyList {
+
     display: flex;
     flex-direction: column;
     list-style: none;
     padding: 0;
     margin: 0;
+    width: 90%;
+    align-content: center;
 }
 
 #historyList li {
@@ -123,7 +153,14 @@ body {
     border-radius: 5px;
     transition: transform 0.3s, background-color 0.3s;
     color: black;
+    font-size: 18px; /* Размер текста */
+    height: 40px; /* Фиксированная высота ячейки */
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
 }
+
 
 #historyList li.new {
     transform: scale(1.1);

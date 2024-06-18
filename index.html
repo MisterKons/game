@@ -6,6 +6,7 @@
     <title>Plinko Game</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="mobile_styles.css" media="(max-width: 768px)">
 </head>
 <body>
@@ -20,9 +21,11 @@
         </div>
         <button id="releaseButton" class="mobile-button">Release Ball</button>
     </div>
-    <div id="gameArea">
-        <canvas id="gameCanvas"></canvas>
-        <div id="slotsContainer"></div>
+    <div id="mainGameArea">
+        <div id="gameArea">
+            <canvas id="gameCanvas"></canvas>
+            <div id="slotsContainer"></div>
+        </div>
         <div id="historyContainer">
             <h3>History</h3>
             <ul id="historyList"></ul>

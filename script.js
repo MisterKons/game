@@ -11,41 +11,37 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let ballPrice = 10;
     const obstacles = [];
     const balls = [];
-    const gravity = 0.6; // Simulating Earth's gravity
-    let friction = 0.98;// Representing typical energy loss on bounce
+    const gravity = 0.6;
+    const friction = 0.98;
     let canvasWidth, canvasHeight;
 
-    // Gradient function
     const getGradientColor = (value) => {
         const min = 1;
-        const max = 8;
+        const max = 33;
         const ratio = (value - min) / (max - min);
         const red = 255;
-        const green = Math.max(0, 255 - ratio * 255); // Green component decreases as value increases
-        const blue = 0; // Blue component stays 0 to keep the color in the yellow-red range
+        const green = Math.max(0, 255 - ratio * 255);
+        const blue = 0;
         return `rgb(${red},${green},${blue})`;
     };
 
-    // Load sounds
     const bounceSound = new Audio('bounce.mp3');
     const slotSound = new Audio('slot.mp3');
     bounceSound.volume = 0.5;
     bounceSound.playbackRate = 1.5;
 
-    // Function to resize game elements
     function resizeGame() {
-        canvasWidth = window.innerWidth * 0.7;
-        canvasHeight = window.innerHeight * 0.7;
+        canvasWidth = 800;
+        canvasHeight = 600;
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
 
-        // Adjust spacing for obstacles
-        const rows = 12;  // Number of rows for obstacles
-        const cols = 13;  // Number of columns for obstacles
+        const rows = 10;
+        const cols = 13;
         const spacingX = canvas.width / cols;
         const spacingY = canvas.height / (rows + 1);
 
-        obstacles.length = 0; // Clear existing obstacles
+        obstacles.length = 0;
         for (let row = 3; row <= rows; row++) {
             for (let col = 0; col < row; col++) {
                 const x = spacingX / 2 + col * spacingX - (row * spacingX) / 2 + canvas.width / 2;
@@ -54,21 +50,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         }
 
-        // Adjust slot size
         const slotWidth = canvas.width / slotValues.length;
         Array.from(slotsContainer.children).forEach((slot, index) => {
-            slot.style.width = `${slotWidth - 10}px`; // Adjust slot width with some padding
-            slot.style.height = '50px'; // Fixed height for slots
+            slot.style.width = `${slotWidth - 10}px`;
+            slot.style.height = '50px';
         });
     }
 
-    // Initial resize of the game
     resizeGame();
 
-    // Resize game on window resize
     window.addEventListener('resize', resizeGame);
 
-    // Distribute slot values
     slotValues.forEach((value) => {
         const slot = document.createElement('div');
         slot.classList.add('slot');
@@ -78,7 +70,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         slotsContainer.appendChild(slot);
     });
 
-    // Ball class
     class Ball {
         constructor(x, y, radius, color) {
             this.x = x;
@@ -103,21 +94,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
             this.y += this.dy;
             this.x += this.dx;
 
-            // Collision with obstacles
             obstacles.forEach(obstacle => {
                 if (Math.hypot(this.x - obstacle.x, this.y - obstacle.y) < this.radius + 10) {
                     const angle = Math.atan2(this.y - obstacle.y, this.x - obstacle.x);
-                    // Adjusting bounce power
-                    const bouncePower = 4.2; // Increase this value for stronger bounces
+                    const bouncePower = 4.2;
                     this.dx = Math.cos(angle) * bouncePower;
                     this.dy = Math.sin(angle) * bouncePower;
-                    bounceSound.currentTime = 0;  // Reset sound to the beginning
+                    bounceSound.currentTime = 0;
                     bounceSound.play();
                     ripples.push(new Ripple(obstacle.x, obstacle.y));
                 }
             });
 
-            // Collision with walls
             if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
                 this.dx = -this.dx;
             }
@@ -132,7 +120,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
-    // Release ball function
     function releaseBall() {
         ballPrice = parseInt(betAmountElement.value, 10);
         if (totalPoints - ballPrice >= 0) {
@@ -142,12 +129,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
-    // Ripple class for the ripple effect
     class Ripple {
         constructor(x, y) {
             this.x = x;
             this.y = y;
-            this.radius = 2; // Start smaller
+            this.radius = 2;
             this.alpha = 1;
         }
 
@@ -160,24 +146,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
 
         update() {
-            this.radius += 0.2; // Grow slower
+            this.radius += 0.2;
             this.alpha -= 0.02;
         }
     }
 
-    // Release ball on space bar press
     window.addEventListener('keydown', (e) => {
         if (e.code === 'Space') {
             releaseBall();
         }
     });
 
-    // Release ball on button click
     document.getElementById('releaseButton').addEventListener('click', () => {
         releaseBall();
     });
 
-    // Add score based on ball's landing position
     function addScore(x) {
         const rects = slotsContainer.children;
         Array.from(rects).forEach(slot => {
@@ -190,7 +173,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 const score = parseFloat(slot.dataset.value) * ballPrice;
                 totalPoints += score;
                 slot.classList.add('highlight');
-                slotSound.currentTime = 0;  // Reset sound to the beginning
+                slotSound.currentTime = 0;
                 slotSound.play();
                 setTimeout(() => slot.classList.remove('highlight'), 300);
                 updatePoints();
@@ -199,17 +182,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     }
 
-    // Update points display
     function updatePoints() {
         pointsElement.textContent = formatNumber(totalPoints);
     }
 
-    // Format number with thousands separator
     function formatNumber(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    // Update hit history
     function updateHistory(score, color) {
         const newHistoryItem = document.createElement('li');
         newHistoryItem.textContent = score.toFixed(2);
@@ -227,11 +207,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     }
 
-    // Animation loop
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw obstacles
         obstacles.forEach(obstacle => {
             ctx.beginPath();
             ctx.arc(obstacle.x, obstacle.y, 5, 0, Math.PI * 2);
@@ -242,7 +220,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         balls.forEach(ball => ball.update());
 
-        // Update and draw ripples
         for (let i = ripples.length - 1; i >= 0; i--) {
             ripples[i].update();
             ripples[i].draw();
