@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     const getGradientColor = (value) => {
         const min = 1;
-        const max = 33;
+        const max = 10;
         const ratio = (value - min) / (max - min);
         const red = 255;
         const green = Math.max(0, 255 - ratio * 255);
@@ -36,10 +36,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
 
-        const rows = 10;
-        const cols = 13;
+        const rows = 12;
+        const cols = 12;
         const spacingX = canvas.width / cols;
-        const spacingY = canvas.height / (rows + 1);
+        const spacingY = canvas.height / (rows + 2.5);
 
         obstacles.length = 0;
         for (let row = 3; row <= rows; row++) {
@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             slot.style.width = `${slotWidth - 10}px`;
             slot.style.height = '50px';
         });
+
+        slotsContainer.style.bottom = `${spacingY / 2 + 3}px`; // Adjust slot position relative to obstacles
     }
 
     resizeGame();

@@ -78,34 +78,42 @@ body {
 #gameArea {
     flex: 85%;
     position: relative;
-    display: flex;
+    display: inline-flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: flex-end;
+    height: 100%; /* Ensure it takes the full height */
 }
 
 #gameCanvas {
     width: 100%;
+    text-align: center;
     background-color: #000;
+    justify-content: center;
 }
 
 #slotsContainer {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    height: 40px;
     position: absolute;
-    bottom: 0;
+
+    justify-content: center;
+
 }
 
 .slot {
-    flex: 1;
+    display: flex;
+    width:30px;
     margin: 1px 1px;
-    padding: 9px;
+    height: 100%;
+    padding: 11px;
     border: none;
     color: black;
     font-weight: 700;
-    font-size: 16px;
-    text-align: center;
+    font-size: 18px;
     border-radius: 10px;
+    text-align: center;
     transition: background-color 0.3s, transform 0.3s;
 }
 
