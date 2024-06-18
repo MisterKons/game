@@ -14,13 +14,13 @@ let ballPrice = 10;
 
 const obstacles = [];
 const balls = [];
-const gravity = 0.51; // Simulating Earth's gravity
+const gravity = 0.98; // Simulating Earth's gravity
 let friction = 0.95; // Representing typical energy loss on bounce
 
 // Gradient function
 const getGradientColor = (value) => {
-    const min = 0.2;
-    const max = 33;
+    const min = 1;
+    const max = 8;
     const ratio = (value - min) / (max - min);
     const red = 255;
     const green = Math.max(0, 255 - ratio * 255); // Green component decreases as value increases
@@ -50,7 +50,7 @@ const cols = 13;  // Number of columns for obstacles
 const spacingX = canvas.width / cols;
 const spacingY = canvas.height / (rows + 1);
 
-for (let row = 1; row <= rows; row++) {
+for (let row = 3; row <= rows; row++) {
     for (let col = 0; col < row; col++) {
         const x = spacingX / 2 + col * spacingX - (row * spacingX) / 2 + canvas.width / 2;
         const y = row * spacingY;
@@ -88,7 +88,7 @@ class Ball {
             if (Math.hypot(this.x - obstacle.x, this.y - obstacle.y) < this.radius + 5) {
                 const angle = Math.atan2(this.y - obstacle.y, this.x - obstacle.x);
                 // Adjusting bounce power
-                const bouncePower = 2; // Increase this value for stronger bounces
+                const bouncePower = 2.2; // Increase this value for stronger bounces 2.2
                 this.dx = Math.cos(angle) * bouncePower;
                 this.dy = Math.sin(angle) * bouncePower;
                 bounceSound.currentTime = 0;  // Reset sound to the beginning
