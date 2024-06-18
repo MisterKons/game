@@ -1,0 +1,62 @@
+/* mobile_styles.css */
+
+/* General styles for mobile */
+body {
+    flex-direction: column;
+    padding: 0;
+    height: 100%;
+}
+
+#controlPanel {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 20px;
+}
+
+#releaseButton {
+    padding: 15px 25px;
+    font-size: 18px;
+}
+
+#betAmountContainer {
+    margin-bottom: 15px;
+}
+
+#gameArea {
+    width: 100%;
+    height: auto;
+}
+
+#gameCanvas {
+    width: 100%;
+    height: auto;
+}
+
+#slotsContainer {
+    width: 100%;
+    bottom: 10px; /* Adjust the position for better visibility on mobile */
+}
+
+.slot {
+    font-size: 18px;
+    padding: 15px;
+}
+
+#historyContainer {
+    width: 100%;
+    margin: 20px 0;
+}
+
+#points {
+    font-size: 28px;
+}
+
+#historyList {
+    padding: 0 10px;
+}
+
+#historyList li {
+    font-size: 16px;
+    padding: 15px;
+}
