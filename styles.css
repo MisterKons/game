@@ -97,17 +97,18 @@ body {
     justify-content: space-between;
     height: 40px;
     position: absolute;
-
     justify-content: center;
+    text-align: center;
+    margin-inline-start: auto;
 
 }
 
 .slot {
-    display: flex;
-    width:30px;
+    display: inline-flex;
+
+    width:30vh;
     margin: 1px 1px;
     height: 100%;
-    padding: 11px;
     border: none;
     color: black;
     font-weight: 700;
