@@ -63,10 +63,15 @@ body {
     padding-top: 15px;
     display: flex;
     flex-direction: column;
-    font-size: 16px;
+    font-size: 1px;
     width: 100%;
     max-width: 300px;
     margin-bottom: 10px;
+}
+#betAmountContainer  {
+    height: 10px;
+    text-align: right;
+
 }
 
 #exitButton {
@@ -230,6 +235,9 @@ body {
         max-width: 75px;
         margin-top: 10px;
     }
+    #mobile_view {
+        display: flex;
+    }
 
     #gameArea {
         height: 450px;
@@ -237,17 +245,20 @@ body {
     #releaseButton {
         align-self: center;
         font-size: 12px;
+        margin: 10px;
     }
     #betAmountContainer {
+        font-size: 10px;
         display:contents;
         text-align: center;
-        justify-content: center;
+        margin: 10px;
+        height: 0px;
     }
     #pointsContainer {
-        font-size: 10px;
+        font-size: 15px;
+
     }
     #betAmount {
-        text-align: justify;
         width: 30%;
     }
     #exitButton {
@@ -255,10 +266,11 @@ body {
         font-size: 10px;
         align-self: center;
         height: 40px;
+        margin: 10px;
     }
 
     #points {
-        font-size: 14px;
+        font-size: 42px;
     }
 
     #gameArea {
@@ -273,8 +285,6 @@ body {
         text-align: center;
 
     }
-
-
     .slot {
         font-size: 11px;
         align-items: stretch;
@@ -285,9 +295,14 @@ body {
 
 
     }
+    #historyContainer {
+        font-size: 10px;
+        height: 40px;
+    }
 
     #historyList li {
         font-size: 6px;
-        height: 15px;
+        height: 5px;
+        transition-delay: 1;
     }
 }

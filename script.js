@@ -198,17 +198,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
         newHistoryItem.textContent = score.toFixed(2);
         newHistoryItem.classList.add('new');
         newHistoryItem.style.backgroundColor = color;
+
+        // Insert new item at the top of the list
         historyList.insertBefore(newHistoryItem, historyList.firstChild);
 
+        // Remove 'new' class from previous items and mark them as old
         const historyItems = historyList.querySelectorAll('li');
-        if (historyItems.length > 4) {
-            historyItems[4].remove();
+        historyItems.forEach((item, index) => {
+            if (index !== 0) {
+                item.classList.remove('new');
+                item.classList.add('old');
+            }
+        });
+
+        // Limit the number of displayed items
+        if (historyItems.length > 5) {
+            historyList.removeChild(historyItems[5]);
         }
 
-        historyItems.forEach(item => {
-            item.classList.remove('new');
-        });
+        // Ensure the latest item stays 'new' for a brief moment
+        setTimeout(() => {
+            newHistoryItem.classList.remove('new');
+        }, 500);
     }
+
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
