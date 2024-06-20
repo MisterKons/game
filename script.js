@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     this.dx = Math.cos(angle) * bouncePower;
                     this.dy = Math.sin(angle) * bouncePower;
                     bounceSound.currentTime = 0;
-                    bounceSound.play();
+
                     ripples.push(new Ripple(obstacle.x, obstacle.y));
                 }
             });
