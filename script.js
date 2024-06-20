@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const pointsElement = document.getElementById('points');
     const betAmountElement = document.getElementById('betAmount');
     const historyList = document.getElementById('historyList');
+    const exitButton = document.getElementById('exitButton'); // Reference to the Exit Game button
     const slotValues = [33, 10, 5, 1.5, 1.2, 0.5, 0.2, 0.2, 0.5, 1.2, 1.5, 5, 10, 33];
     const ripples = [];
     let totalPoints = 5000;
@@ -234,4 +235,43 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     animate();
+
+    exitButton.addEventListener('click', () => {
+        alert(`You have exited the game with ${totalPoints} points.`);
+        savePoints(totalPoints);
+    });
+
+    function savePoints(points) {
+        let leaderboard = localStorage.getItem('leaderboard');
+        if (!leaderboard) {
+            leaderboard = [];
+        } else {
+            leaderboard = JSON.parse(leaderboard);
+        }
+
+        // Get the user ID counter
+        let userIdCounter = localStorage.getItem('userIdCounter');
+        if (!userIdCounter) {
+            userIdCounter = 1;
+        } else {
+            userIdCounter = parseInt(userIdCounter, 10) + 1;
+        }
+
+        const playerName = prompt("Enter your name for the leaderboard:") || `user_${userIdCounter}`;
+        if (!playerName.startsWith("user_")) {
+            localStorage.setItem('userIdCounter', userIdCounter);
+        }
+
+        leaderboard.push({ name: playerName, points });
+        leaderboard.sort((a, b) => b.points - a.points);
+        localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+        displayLeaderboard(leaderboard);
+    }
+
+    function displayLeaderboard(leaderboard) {
+        const leaderboardDiv = document.createElement('div');
+        leaderboardDiv.id = 'leaderboard';
+        leaderboardDiv.innerHTML = '<h3>Leaderboard</h3><ul>' + leaderboard.map(entry => `<li>${entry.name}: ${entry.points}</li>`).join('') + '</ul>';
+        document.body.appendChild(leaderboardDiv);
+    }
 });
