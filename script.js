@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let ballPrice = 10;
     const obstacles = [];
     const balls = [];
-    const gravity = 0.6;
-    const friction = 0.98;
+    const gravity = 3;
+    const friction = 1;
     let canvasWidth, canvasHeight;
 
     const getGradientColor = (value) => {
@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     bounceSound.playbackRate = 1.5;
 
     function resizeGame() {
-        const maxWidth = window.innerWidth < 800 ? window.innerWidth : 800;
-        const maxHeight = window.innerHeight < 600 ? window.innerHeight : 600;
+        const maxWidth = window.innerWidth < 700 ? window.innerWidth : 700;
+        const maxHeight = window.innerHeight < 500 ? window.innerHeight : 500;
         canvas.width = maxWidth;
         canvas.height = maxHeight;
 
@@ -100,11 +100,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             obstacles.forEach(obstacle => {
                 if (Math.hypot(this.x - obstacle.x, this.y - obstacle.y) < this.radius + 10) {
                     const angle = Math.atan2(this.y - obstacle.y, this.x - obstacle.x);
-                    const bouncePower = 4.2;
+                    const bouncePower = 4.5;
                     this.dx = Math.cos(angle) * bouncePower;
                     this.dy = Math.sin(angle) * bouncePower;
                     bounceSound.currentTime = 0;
-                    bounceSound.play();
                     ripples.push(new Ripple(obstacle.x, obstacle.y));
                 }
             });
