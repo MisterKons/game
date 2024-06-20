@@ -32,10 +32,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     bounceSound.playbackRate = 1.5;
 
     function resizeGame() {
-        canvasWidth = 800;
-        canvasHeight = 600;
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;
+        const maxWidth = window.innerWidth < 800 ? window.innerWidth : 800;
+        const maxHeight = window.innerHeight < 600 ? window.innerHeight : 600;
+        canvas.width = maxWidth;
+        canvas.height = maxHeight;
 
         const rows = 12;
         const cols = 12;
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     this.dx = Math.cos(angle) * bouncePower;
                     this.dy = Math.sin(angle) * bouncePower;
                     bounceSound.currentTime = 0;
-
+                    bounceSound.play();
                     ripples.push(new Ripple(obstacle.x, obstacle.y));
                 }
             });
@@ -124,8 +124,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function releaseBall() {
+        const maxBalls = 50; // Limit the number of balls to 50
         ballPrice = parseInt(betAmountElement.value, 10);
-        if (totalPoints - ballPrice >= 0) {
+        if (totalPoints - ballPrice >= 0 && balls.length < maxBalls) {
             balls.push(new Ball(canvas.width / 2, 20, 10, 'red'));
             totalPoints -= ballPrice;
             updatePoints();

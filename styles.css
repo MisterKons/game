@@ -58,6 +58,7 @@ body {
 }
 
 #betAmountContainer {
+    padding-left: 30%;
     align-self: center;
     padding-top: 15px;
     display: flex;
@@ -232,17 +233,28 @@ body {
 
     #gameArea {
         height: 450px;
-
-
     }
     #releaseButton {
         align-self: center;
         font-size: 12px;
     }
-
-    #betAmountContainer, #pointsContainer {
-        align-self: center;
+    #betAmountContainer {
+        display:contents;
+        text-align: center;
+        justify-content: center;
+    }
+    #pointsContainer {
         font-size: 10px;
+    }
+    #betAmount {
+        text-align: justify;
+        width: 30%;
+    }
+    #exitButton {
+        text-align: center;
+        font-size: 10px;
+        align-self: center;
+        height: 40px;
     }
 
     #points {
