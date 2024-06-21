@@ -52,7 +52,7 @@ body {
 }
 #releaseButton {
     align-self: center;
-    padding: 12px 20px;
+    padding: 10px 20px;
     background-color: red;
     border: none;
     border-radius: 8px;
@@ -63,7 +63,6 @@ body {
     transition: background-color 0.3s, transform 0.3s;
     width: 100%;
     max-width: 300px;
-    margin-top: 10px;
 }
 
 #releaseButton:hover, #exitButton:hover {
@@ -248,5 +247,11 @@ body {
     #historyList li {
         font-size: 10px;
         height: 30px;
+    }
+    #releasbtn_Container {
+        padding: 12px 20px;
+        margin-top: 8px;
+        width: max;
+
     }
 }

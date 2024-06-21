@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let ballPrice = 10;
     const obstacles = [];
     const balls = [];
-    const gravity = 0.98;
-    const friction = 0.96;
+    const gravity = 0.89;
+    const friction = 0.88;
     let canvasWidth, canvasHeight;
 
     const getGradientColor = (value) => {
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             };
             this.dx = (Math.random() - 0.5) * 2;
             this.dy = 2;
-            this.bounceFactor = 0.75; // Energy loss factor
+            this.bounceFactor = 0.9; // Energy loss factor
         }
 
         draw() {
@@ -102,9 +102,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             obstacles.forEach(obstacle => {
                 const dist = Math.hypot(this.x - obstacle.x, this.y - obstacle.y);
-                if (dist < this.radius + 10) {
+                if (dist < this.radius + 5) {
                     const angle = Math.atan2(this.y - obstacle.y, this.x - obstacle.x);
-                    const bouncePower = 3.5;
+                    const bouncePower = 4;
                     const bounceX = Math.cos(angle) * bouncePower;
                     const bounceY = Math.sin(angle) * bouncePower;
 
