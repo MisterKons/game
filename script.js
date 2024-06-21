@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     };
 
     const slotSound = new Audio('slot.mp3');
+    slotSound.volume = 0.3;
 
     function resizeGame() {
         const maxWidth = window.innerWidth < 700 ? window.innerWidth : 700;

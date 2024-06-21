@@ -46,40 +46,44 @@
     </div>
   </div>
   <div class="controls">
-    <input type="number" id="betAmount" placeholder="Bet Amount" value="50" min="10" inputmode="numeric" pattern="[0-9]*">
-    <div class="lines-selection">
-      <label>
-        <input type="checkbox" class="line-checkbox" value="1" checked> Line 1
-      </label>
-      <label>
-        <input type="checkbox" class="line-checkbox" value="2" checked> Line 2
-      </label>
-      <label>
-        <input type="checkbox" class="line-checkbox" value="3" checked> Line 3
-      </label>
-      <label>
-        <input type="checkbox" class="line-checkbox" value="4" checked> Line 4
-      </label>
-      <label>
-        <input type="checkbox" class="line-checkbox" value="5" checked> Line 5
-      </label>
-      <label>
-        <input type="checkbox" class="line-checkbox" value="6" checked> Diagonal 1
-      </label>
-      <label>
-        <input type="checkbox" class="line-checkbox" value="7" checked> Diagonal 2
-      </label>
+    <div class="left-controls">
+      <button id="resetButton">Reset</button>
+      <button id="freeRespinsButton">Free Re-Spin</button>
+      <button id="exit_slots" onclick =window.location.href="index.html">Exit</button>
     </div>
-    <button id="spinButton">Spin</button>
-    <button id="resetButton">Reset</button>
+    <div class="scoreboard">
+      <p>Score: <span id="score">0</span></p>
+      <input type="number" id="betAmount" placeholder="Bet Amount" min="1" value="10">
+    </div>
+    <div class="right-controls">
+      <button id="spinButton">Spin</button>
+      <button id="gambleButton">Gamble</button>
+    </div>
   </div>
-  <div class="scoreboard">
-    <p>Score: <span id="score">0</span></p>
+  <div class="lines-selection">
+    <label>
+      <input type="checkbox" class="line-checkbox" value="1" checked> Line 1
+    </label>
+    <label>
+      <input type="checkbox" class="line-checkbox" value="2" checked> Line 2
+    </label>
+    <label>
+      <input type="checkbox" class="line-checkbox" value="3" checked> Line 3
+    </label>
+    <label>
+      <input type="checkbox" class="line-checkbox" value="4" checked> Line 4
+    </label>
+    <label>
+      <input type="checkbox" class="line-checkbox" value="5" checked> Line 5
+    </label>
+    <label>
+      <input type="checkbox" class="line-checkbox" value="6" checked> Diagonal 1
+    </label>
+    <label>
+      <input type="checkbox" class="line-checkbox" value="7" checked> Diagonal 2
+    </label>
   </div>
-  <div class="bonus-features">
-    <button id="gambleButton">Gamble</button>
-    <button id="freeRespinsButton">Free Re-Spin</button>
-  </div>
+
 </div>
 <script src="script_slot_machine.js"></script>
 </body>

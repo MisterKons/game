@@ -10,20 +10,48 @@
 <div class="welcome-container">
   <h1>Welcome to the Game Portal</h1>
   <div class="button-container">
-    <button onclick="startPlinko()">Play Plinko</button>
-    <button onclick="startAnotherGame()">Play Another Game</button>
-    <!-- Add more buttons for other games here -->
+    <input type="text" id="username" placeholder="Enter your username">
+    <button onclick="startPlinko()">Start Plinko</button>
+    <button onclick="startSlotMachine()">Slot Machine</button>
   </div>
+  <div id="userScore" class="user-score"></div>
 </div>
 
 <script>
   function startPlinko() {
-    window.location.href = "plinko_ball.html"; // Change this to the actual path of your Plinko game
+    const username = document.getElementById('username').value;
+    if (username) {
+      localStorage.setItem('username', username);
+      window.location.href = 'plinko_ball.html';
+    } else {
+      alert('Please enter your username');
+    }
   }
 
-  function startAnotherGame() {
-    window.location.href = 'slot_machine.html'; // Change this to the actual path of your other game
+  function startSlotMachine() {
+    const username = document.getElementById('username').value;
+    if (username) {
+      localStorage.setItem('username', username);
+      window.location.href = 'slot_machine.html';
+    } else {
+      alert('Please enter your username');
+    }
   }
+
+  function displayUserScore() {
+    const username = localStorage.getItem('username');
+    if (username) {
+      const score = getUserScore(username);
+      document.getElementById('userScore').textContent = `${username}, your current score is: ${score}`;
+    }
+  }
+
+  function getUserScore(username) {
+    const scores = JSON.parse(localStorage.getItem('userScores')) || {};
+    return scores[username] || 0;
+  }
+
+  document.addEventListener('DOMContentLoaded', displayUserScore);
 </script>
 </body>
 </html>
