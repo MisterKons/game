@@ -5,7 +5,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const pointsElement = document.getElementById('points');
     const betAmountElement = document.getElementById('betAmount');
     const historyList = document.getElementById('historyList');
-    const exitButton = document.getElementById('exitButton'); // Reference to the Exit Game button
+    const exitButton = document.getElementById('exitButton'); // Reference to the Leader Board button
+    const stopButton = document.getElementById('exit'); // Reference to the Stop button
+    const allInButton = document.getElementById('all_inn'); // Reference to the All In button
+    const releaseButton = document.getElementById('releaseButton'); // Reference to the Release Ball button
     const slotValues = [33, 10, 5, 1.5, 1.2, 0.5, 0.2, 0.2, 0.5, 1.2, 1.5, 5, 10, 33];
     const ripples = [];
     let totalPoints = 5000;
@@ -128,7 +131,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
-
     function releaseBall() {
         const maxBalls = 50;
         ballPrice = parseInt(betAmountElement.value, 10);
@@ -168,8 +170,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
-    document.getElementById('releaseButton').addEventListener('click', () => {
+    releaseButton.addEventListener('click', () => {
         releaseBall();
+    });
+
+    allInButton.addEventListener('click', () => {
+        betAmountElement.value = totalPoints; // Set bet amount to total points
+    });
+
+    stopButton.addEventListener('click', () => {
+        window.location.href = 'index.html'; // Redirect to main menu
     });
 
     function addScore(x) {
@@ -229,7 +239,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             newHistoryItem.classList.remove('new');
         }, 500);
     }
-
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);

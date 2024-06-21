@@ -1,40 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Plinko Game</title>
-    <link rel="stylesheet" href="mobile_styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome Page</title>
+  <link rel="stylesheet" href="welcome.css">
 </head>
 <body>
-<div id="gameContainer">
-    <div id="mainGameArea">
-        <div id="gameArea">
-            <canvas id="gameCanvas"></canvas>
-            <div id="slotsContainer"></div>
-        </div>
-        <div id="pointsContainer">
-            <span>Points: </span><span id="points">5000</span>
-
-        </div>
-        <div id="mobile_view">
-            <div id="betAmountContainer">
-                <label for="betAmount">Bet:</label>
-                <input type="number" id="betAmount" value="10" min="1" inputmode="numeric" pattern="[0-9]*">
-                <button id="exitButton" class="mobile-button">Leader Board</button>
-            </div>
-
-            <div id="historyContainer">
-                <h3>History</h3>
-                <ul id="historyList"></ul>
-            </div>
-            <div id="releasbtn_Container">
-                <button id="releaseButton" class="mobile-button">Release Ball</button>
-            </div>
-        </div>
-    </div>
+<div class="welcome-container">
+  <h1>Welcome to the Game Portal</h1>
+  <div class="button-container">
+    <button onclick="startPlinko()">Play Plinko</button>
+    <button onclick="startAnotherGame()">Play Another Game</button>
+    <!-- Add more buttons for other games here -->
+  </div>
 </div>
-<script src="script.js"></script>
+
+<script>
+  function startPlinko() {
+    window.location.href = 'https://misterkons.github.io/game/'; // Change this to the actual path of your Plinko game
+  }
+
+  function startAnotherGame() {
+    window.location.href = 'anotherGame.html'; // Change this to the actual path of your other game
+  }
+</script>
 </body>
 </html>

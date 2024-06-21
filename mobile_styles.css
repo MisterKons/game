@@ -28,7 +28,6 @@ body {
 
 #controlPanel {
     width: 100%;
-    display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
@@ -65,10 +64,43 @@ body {
     max-width: 300px;
 }
 
-#releaseButton:hover, #exitButton:hover {
-    background-color: green;
+#all_inn {
+    margin-top: 10px;
+    align-self: center;
+    padding: 5px 10px;
+    background-color: red;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 100%;
+    max-width: 300px;
+}
+
+
+#exit {
+    margin-top: 10px;
+    background-color: red;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 30%;
+    max-width: 300px;
+    flex: 3;
+}
+
+#releaseButton:hover, #exitButton:hover, #exit:hover, #all_inn:hover {
+    background-color: #8cb300;
     transform: scale(1.05);
 }
+
 
 #betAmountContainer {
     display: flex;
@@ -104,6 +136,7 @@ body {
 }
 
 #mainGameArea {
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -208,7 +241,7 @@ body {
         display: flex;
     }
 
-    #releaseButton, #exitButton {
+    #releaseButton, #exitButton, #exit_btn_pinkle {
         font-size: 12px;
         max-width: 150px;
     }
@@ -248,10 +281,26 @@ body {
         font-size: 10px;
         height: 30px;
     }
+
     #releasbtn_Container {
         padding: 12px 20px;
         margin-top: 8px;
         width: max;
 
+    }
+    #exit {
+        margin-left: 15px;
+        margin-top: 10px;
+        background-color: red;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        width: 30%;
+        max-width: 300px;
+        flex: 3;
     }
 }
