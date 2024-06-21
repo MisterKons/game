@@ -2,34 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Plinko Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mobile_styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <div id="gameContainer">
-    <id="mainGameArea">
+    <div id="mainGameArea">
         <div id="gameArea">
             <canvas id="gameCanvas"></canvas>
             <div id="slotsContainer"></div>
         </div>
-            <div id="pointsContainer">
+        <div id="pointsContainer">
             <span>Points: </span><span id="points">5000</span>
         </div>
-    <div id="mobile_view">
-        <div id="betAmountContainer">
-            <label for="betAmount">Bet:</label>
-            <input type="number" id="betAmount" value="10" min="1">
-            <button id="exitButton" class="mobile-button">Exit</button>
-            <button id="releaseButton" class="mobile-button">Release Ball</button><!-- New Exit Game button -->
+        <div id="mobile_view">
+            <div id="betAmountContainer">
+                <label for="betAmount">Bet:</label>
+                <input type="number" id="betAmount" value="10" min="1">
+                <button id="exitButton" class="mobile-button">Leader Board</button>
+                <button id="releaseButton" class="mobile-button">Release Ball</button>
+            </div>
+            <div id="historyContainer">
+                <h3>History</h3>
+                <ul id="historyList"></ul>
+            </div>
         </div>
-        <div id="historyContainer">
-            <h3>History</h3>
-            <ul id="historyList"></ul>
-        </div>
-        </div>
-    </div>
     </div>
 </div>
 <script src="script.js"></script>

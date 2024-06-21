@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let ballPrice = 10;
     const obstacles = [];
     const balls = [];
-    const gravity = 3;
-    const friction = 1;
+    const gravity = 0.98;
+    const friction = 0.96;
     let canvasWidth, canvasHeight;
 
     const getGradientColor = (value) => {
         const min = 1;
-        const max = 10;
+        const max = 9;
         const ratio = (value - min) / (max - min);
         const red = 255;
         const green = Math.max(0, 255 - ratio * 255);
@@ -26,10 +26,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         return `rgb(${red},${green},${blue})`;
     };
 
-    const bounceSound = new Audio('bounce.mp3');
     const slotSound = new Audio('slot.mp3');
-    bounceSound.volume = 0.5;
-    bounceSound.playbackRate = 1.5;
 
     function resizeGame() {
         const maxWidth = window.innerWidth < 700 ? window.innerWidth : 700;
@@ -37,8 +34,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         canvas.width = maxWidth;
         canvas.height = maxHeight;
 
-        const rows = 12;
-        const cols = 12;
+        const rows = 8;
+        const cols = 10;
         const spacingX = canvas.width / cols;
         const spacingY = canvas.height / (rows + 2.5);
 
@@ -74,21 +71,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     class Ball {
-        constructor(x, y, radius, color) {
+        constructor(x, y, radius, imageSrc) {
             this.x = x;
             this.y = y;
             this.radius = radius;
-            this.color = color;
+            this.image = new Image();
+            this.image.src = imageSrc;
+            this.image.onload = () => {
+                this.draw(); // Draw the image once it's loaded
+            };
             this.dx = (Math.random() - 0.5) * 2;
             this.dy = 2;
+            this.bounceFactor = 0.75; // Energy loss factor
         }
 
         draw() {
+            ctx.save();
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = this.color;
-            ctx.fill();
-            ctx.closePath();
+            ctx.clip();
+            ctx.drawImage(this.image, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+            ctx.restore();
         }
 
         update() {
@@ -98,18 +101,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
             this.x += this.dx;
 
             obstacles.forEach(obstacle => {
-                if (Math.hypot(this.x - obstacle.x, this.y - obstacle.y) < this.radius + 10) {
+                const dist = Math.hypot(this.x - obstacle.x, this.y - obstacle.y);
+                if (dist < this.radius + 10) {
                     const angle = Math.atan2(this.y - obstacle.y, this.x - obstacle.x);
-                    const bouncePower = 4.5;
-                    this.dx = Math.cos(angle) * bouncePower;
-                    this.dy = Math.sin(angle) * bouncePower;
-                    bounceSound.currentTime = 0;
+                    const bouncePower = 3.5;
+                    const bounceX = Math.cos(angle) * bouncePower;
+                    const bounceY = Math.sin(angle) * bouncePower;
+
+                    this.dx = bounceX * this.bounceFactor;
+                    this.dy = bounceY * this.bounceFactor;
                     ripples.push(new Ripple(obstacle.x, obstacle.y));
                 }
             });
 
             if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
-                this.dx = -this.dx;
+                this.dx = -this.dx * this.bounceFactor;
             }
 
             if (this.y + this.radius > canvas.height) {
@@ -122,11 +128,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
+
     function releaseBall() {
-        const maxBalls = 50; // Limit the number of balls to 50
+        const maxBalls = 50;
         ballPrice = parseInt(betAmountElement.value, 10);
         if (totalPoints - ballPrice >= 0 && balls.length < maxBalls) {
-            balls.push(new Ball(canvas.width / 2, 20, 10, 'red'));
+            const ballImageSrc = 'ball_1.png'; // Path to your ball image
+            balls.push(new Ball(canvas.width / 2, 20, 10, ballImageSrc));
             totalPoints -= ballPrice;
             updatePoints();
         }

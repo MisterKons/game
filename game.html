@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Plinko Game</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Base styles */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      background-color: #1c1c1e;
+      color: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      overflow: hidden;
+    }
+
+    #gameContainer {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #2c2c2e;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    #controlPanel {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    #releaseButton, #exitButton {
+      align-self: center;
+      padding: 12px 20px;
+      background-color: #ff3b30;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+      width: 100%;
+      max-width: 300px;
+      margin-top: 10px;
+    }
+
+    #releaseButton:hover, #exitButton:hover {
+      background-color: #ff2d1c;
+      transform: scale(1.05);
+    }
+
+    #betAmountContainer {
+      display: flex;
+      flex-direction: column;
+      font-size: 16px;
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 10px;
+    }
+
+    #betAmount {
+      padding: 10px;
+      border-radius: 8px;
+      border: 2px solid #ff3b30;
+      background: #1c1c1e;
+      color: white;
+      font-size: 16px;
+      margin-top: 5px;
+      width: 100%;
+    }
+
+    #pointsContainer {
+      font-size: 16px;
+      margin-top: 10px;
+      width: 100%;
+      text-align: center;
+    }
+
+    #points {
+      font-size: 20px;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+
+    #mainGameArea {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    #gameArea {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    #slotsContainer {
+      display: flex;
+      width: 100%;
+      text-align: center;
+      position: absolute;
+    }
+
+    .slot {
+      flex: 1;
+      border: none;
+      color: black;
+      font-weight: 900;
+      padding-top: 10px;
+      font-size: 18px;
+      text-align: center;
+      border-radius: 8px;
+      transition: background-color 0.3s, transform 0.3s;
+      background-color: #444;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      padding-bottom: 10px;
+    }
+
+    .slot:hover {
+      transform: scale(1.1);
+      background-color: #ff3b30;
+    }
+
+    .highlight {
+      animation: press 0.9s;
+    }
+
+    @keyframes press {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(30%); }
+      100% { transform: translateY(0); }
+    }
+
+    #historyContainer {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      width: 100%;
+      overflow-y: auto;
+    }
+
+    #historyList {
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      align-items: center;
+    }
+
+    #historyList li {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      padding: 10px;
+      background-color: #555;
+      text-align: center;
+      border-radius: 8px;
+      transition: transform 0.3s, background-color 0.3s;
+      color: black;
+      font-size: 14px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Prevent double-tap zoom on mobile */
+    @media (pointer: coarse) {
+      body, input, button {
+        touch-action: manipulation;
+      }
+    }
+
+    /* Media queries for mobile devices */
+    @media (max-width: 768px) {
+      #mobile_view {
+        display: flex;
+      }
+
+      #releaseButton, #exitButton {
+        font-size: 12px;
+        max-width: 150px;
+      }
+
+      #betAmountContainer {
+        font-size: 10px;
+        text-align: center;
+      }
+
+      #pointsContainer {
+        font-size: 15px;
+      }
+
+      #betAmount {
+        width: 50%;
+      }
+
+      #points {
+        font-size: 18px;
+      }
+
+      #historyList li {
+        font-size: 10px;
+        height: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="gameContainer">
+  <div id="mainGameArea">
+    <div id="gameArea">
+      <canvas id="gameCanvas"></canvas>
+      <div id="slotsContainer"></div>
+    </div>
+    <div id="pointsContainer">
+      <span>Points: </span><span id="points">5000</span>
+    </div>
+    <div id="mobile_view">
+      <div id="betAmountContainer">
+        <label for="betAmount">Bet:</label>
+        <input type="number" id="betAmount" value="10" min="1">
+        <button id="exitButton" class="mobile-button">Exit</button>
+        <button id="releaseButton" class="mobile-button">Release Ball</button>
+      </div>
+      <div id="historyContainer">
+        <h3>History</h3>
+        <ul id="historyList"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const slotsContainer = document.getElementById('slotsContainer');
+    const pointsElement = document.getElementById('points');
+    const betAmountElement = document.getElementById('betAmount');
+    const historyList = document.getElementById('historyList');
+    const exitButton = document.getElementById('exitButton');
+    const slotValues = [33, 10, 5, 1.5, 1.2, 0.5, 0.2, 0.2, 0.5, 1.2, 1.5, 5, 10, 33];
+    const ripples = [];
+    let totalPoints = 5000;
+    let ballPrice = 10;
+    const obstacles = [];
+    const balls = [];
+    const gravity = 3;
+    const friction = 1;
+    const bounceSound = new Audio('bounce.mp3');
+    const slotSound = new Audio('slot.mp3');
+    bounceSound.volume = 0.5;
+    bounceSound.playbackRate = 1.5;
+
+    function resizeGame() {
+      const maxWidth = window.innerWidth;
+      const maxHeight = window.innerHeight;
+      canvas.width = maxWidth;
+      canvas.height = maxHeight;
+
+      const rows = 12;
+      const cols = 12;
+      const spacingX = canvas.width / cols;
+      const spacingY = canvas.height / (rows + 2.5);
+
+      obstacles.length = 0;
+      for (let row = 3; row <= rows; row++) {
+        for (let col = 0; col < row; col++) {
+          const x = spacingX / 2 + col * spacingX - (row * spacingX) / 2 + canvas.width / 2;
+          const y = row * spacingY;
+          obstacles.push({ x, y });
+        }
+      }
+
+      const slotWidth = canvas.width / slotValues.length;
+      Array.from(slotsContainer.children).forEach((slot, index) => {
+        slot.style.width = `${slotWidth - 10}px`;
+        slot.style.height = '50px';
+      });
+
+      slotsContainer.style.bottom = `${spacingY / 2 + 3}px`;
+    }
+
+    resizeGame();
+    window.addEventListener('resize', resizeGame);
+
+    slotValues.forEach((value) => {
+      const slot = document.createElement('div');
+      slot.classList.add('slot');
+      slot.dataset.value = value;
+      slot.innerText = `${value}x`;
+      slot.style.backgroundColor = getGradientColor(value);
+      slotsContainer.appendChild(slot);
+    });
+
+    class Ball {
+      constructor(x, y, radius, color) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.dx = (Math.random() - 0.5) * 2;
+        this.dy = 2;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      update() {
+        this.dy += gravity;
+        this.dy *= friction;
+        this.y += this.dy;
+        this.x += this.dx;
+
+        obstacles.forEach(obstacle => {
+          if (Math.hypot(this.x - obstacle.x, this.y - obstacle.y) < this.radius + 10) {
+            const angle = Math.atan2(this.y - obstacle.y, this.x - obstacle.x);
+            const bouncePower = 4.5;
+            this.dx = Math.cos(angle) * bouncePower;
+            this.dy = Math.sin(angle) * bouncePower;
+            bounceSound.currentTime = 0;
+            ripples.push(new Ripple(obstacle.x, obstacle.y));
+          }
+        });
+
+        if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+          this.dx = -this.dx;
+        }
+
+        if (this.y + this.radius > canvas.height) {
+          this.y = canvas.height - this.radius;
+          addScore(this.x);
+          balls.splice(balls.indexOf(this), 1);
+        }
+
+        this.draw();
+      }
+    }
+
+    function releaseBall() {
+      const maxBalls = 50;
+      ballPrice = parseInt(betAmountElement.value, 10);
+      if (totalPoints - ballPrice >= 0 && balls.length < maxBalls) {
+        balls.push(new Ball(canvas.width / 2, 20, 10, 'red'));
+        totalPoints -= ballPrice;
+        updatePoints();
+      }
+    }
+
+    class Ripple {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.radius = 2;
+        this.alpha = 1;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255, 255, 255, ${this.alpha})`;
+        ctx.stroke();
+        ctx.closePath();
+      }
+
+      update() {
+        this.radius += 0.2;
+        this.alpha -= 0.02;
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        releaseBall();
+      }
+    });
+
+    document.getElementById('releaseButton').addEventListener('click', () => {
+      releaseBall();
+    });
+
+    function addScore(x) {
+      const rects = slotsContainer.children;
+      Array.from(rects).forEach(slot => {
+        const rect = slot.getBoundingClientRect();
+        const slotX = rect.left + rect.width / 2;
+        const canvasRect = canvas.getBoundingClientRect();
+        const relativeX = slotX - canvasRect.left;
+
+        if (Math.abs(relativeX - x) < rect.width / 2) {
+          const score = parseFloat(slot.dataset.value) * ballPrice;
+          totalPoints += score;
+          slot.classList.add('highlight');
+          slotSound.currentTime = 0;
+          slotSound.play();
+          setTimeout(() => slot.classList.remove('highlight'), 300);
+          updatePoints();
+          updateHistory(score, getGradientColor(parseFloat(slot.dataset.value)));
+        }
+      });
+    }
+
+    function updatePoints() {
+      pointsElement.textContent = formatNumber(totalPoints);
+    }
+
+    function formatNumber(number) {
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function updateHistory(score, color) {
+      const newHistoryItem = document.createElement('li');
+      newHistoryItem.textContent = score.toFixed(2);
+      newHistoryItem.classList.add('new');
+      newHistoryItem.style.backgroundColor = color;
+
+      historyList.insertBefore(newHistoryItem, historyList.firstChild);
+
+      const historyItems = historyList.querySelectorAll('li');
+      historyItems.forEach((item, index) => {
+        if (index !== 0) {
+          item.classList.remove('new');
+          item.classList.add('old');
+        }
+      });
+
+      if (historyItems.length > 5) {
+        historyList.removeChild(historyItems[5]);
+      }
+
+      setTimeout(() => {
+        newHistoryItem.classList.remove('new');
+      }, 500);
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      obstacles.forEach(obstacle => {
+        ctx.beginPath();
+        ctx.arc(obstacle.x, obstacle.y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+        ctx.closePath();
+      });
+
+      balls.forEach(ball => ball.update());
+
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        ripples[i].update();
+        ripples[i].draw();
+        if (ripples[i].alpha <= 0) {
+          ripples.splice(i, 1);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    exitButton.addEventListener('click', () => {
+      alert(`You have exited the game with ${totalPoints} points.`);
+      savePoints(totalPoints);
+    });
+
+    function savePoints(points) {
+      let leaderboard = localStorage.getItem('leaderboard');
+      if (!leaderboard) {
+        leaderboard = [];
+      } else {
+        leaderboard = JSON.parse(leaderboard);
+      }
+
+      let userIdCounter = localStorage.getItem('userIdCounter');
+      if (!userIdCounter) {
+        userIdCounter = 1;
+      } else {
+        userIdCounter = parseInt(userIdCounter, 10) + 1;
+      }
+
+      const playerName = prompt("Enter your name for the leaderboard:") || `user_${userIdCounter}`;
+      if (!playerName.startsWith("user_")) {
+        localStorage.setItem('userIdCounter', userIdCounter);
+      }
+
+      leaderboard.push({ name: playerName, points });
+      leaderboard.sort((a, b) => b.points - a.points);
+      localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+      displayLeaderboard(leaderboard);
+    }
+
+    function displayLeaderboard(leaderboard) {
+      const leaderboardDiv = document.createElement('div');
+      leaderboardDiv.id = 'leaderboard';
+      leaderboardDiv.innerHTML = '<h3>Leaderboard</h3><ul>' + leaderboard.map(entry => `<li>${entry.name}: ${entry.points}</li>`).join('') + '</ul>';
+      document.body.appendChild(leaderboardDiv);
+    }
+  });
+</script>
+</body>
+</html>
