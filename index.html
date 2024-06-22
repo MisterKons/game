@@ -18,9 +18,12 @@
 </div>
 
 <script>
+  const initialPoints = 5000;
+
   function startPlinko() {
     const username = document.getElementById('username').value;
     if (username) {
+      initializeUserScore(username);
       localStorage.setItem('username', username);
       window.location.href = 'plinko_ball.html';
     } else {
@@ -31,10 +34,19 @@
   function startSlotMachine() {
     const username = document.getElementById('username').value;
     if (username) {
+      initializeUserScore(username);
       localStorage.setItem('username', username);
       window.location.href = 'slot_machine.html';
     } else {
       alert('Please enter your username');
+    }
+  }
+
+  function initializeUserScore(username) {
+    const scores = JSON.parse(localStorage.getItem('userScores')) || {};
+    if (!(username in scores)) {
+      scores[username] = initialPoints;
+      localStorage.setItem('userScores', JSON.stringify(scores));
     }
   }
 
@@ -48,7 +60,7 @@
 
   function getUserScore(username) {
     const scores = JSON.parse(localStorage.getItem('userScores')) || {};
-    return scores[username] || 0;
+    return scores[username] || initialPoints;
   }
 
   document.addEventListener('DOMContentLoaded', displayUserScore);

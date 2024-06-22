@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', (event) => {
+    const username = localStorage.getItem('username');
+    if (!username) {
+        alert('No username found, redirecting to welcome page.');
+        window.location.href = 'index.html';
+        return;
+    }
+
+    let score = getUserScore(username);
+    updateScoreDisplay(score);
+
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const slotsContainer = document.getElementById('slotsContainer');
@@ -11,7 +21,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const releaseButton = document.getElementById('releaseButton'); // Reference to the Release Ball button
     const slotValues = [33, 10, 5, 1.5, 1.2, 0.5, 0.2, 0.2, 0.5, 1.2, 1.5, 5, 10, 33];
     const ripples = [];
-    let totalPoints = 5000;
     let ballPrice = 10;
     const obstacles = [];
     const balls = [];
@@ -31,6 +40,37 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     const slotSound = new Audio('slot.mp3');
     slotSound.volume = 0.3;
+
+    function updateScoreDisplay(score) {
+        pointsElement.textContent = score;
+    }
+
+    function saveUserScore(username, score) {
+        let scores = JSON.parse(localStorage.getItem('userScores')) || {};
+        scores[username] = score;
+        localStorage.setItem('userScores', JSON.stringify(scores));
+    }
+
+    function getUserScore(username) {
+        const scores = JSON.parse(localStorage.getItem('userScores')) || {};
+        return scores[username] || 0;
+    }
+
+    function updateScoreDisplay(score) {
+        document.getElementById('points').textContent = score;
+    }
+
+    function releaseBall() {
+        const maxBalls = 50;
+        ballPrice = parseInt(betAmountElement.value, 10);
+        if (score - ballPrice >= 0 && balls.length < maxBalls) {
+            const ballImageSrc = 'ball_1.png'; // Path to your ball image
+            balls.push(new Ball(canvas.width / 2, 20, 10, ballImageSrc));
+            score -= ballPrice;
+            updateScoreDisplay(score);
+            saveUserScore(username, score);
+        }
+    }
 
     function resizeGame() {
         const maxWidth = window.innerWidth < 700 ? window.innerWidth : 700;
@@ -62,7 +102,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     resizeGame();
-
     window.addEventListener('resize', resizeGame);
 
     slotValues.forEach((value) => {
@@ -132,17 +171,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
-    function releaseBall() {
-        const maxBalls = 50;
-        ballPrice = parseInt(betAmountElement.value, 10);
-        if (totalPoints - ballPrice >= 0 && balls.length < maxBalls) {
-            const ballImageSrc = 'ball_1.png'; // Path to your ball image
-            balls.push(new Ball(canvas.width / 2, 20, 10, ballImageSrc));
-            totalPoints -= ballPrice;
-            updatePoints();
-        }
-    }
-
     class Ripple {
         constructor(x, y) {
             this.x = x;
@@ -171,16 +199,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
-    releaseButton.addEventListener('click', () => {
-        releaseBall();
-    });
+    releaseButton.addEventListener('click', releaseBall);
 
     allInButton.addEventListener('click', () => {
-        betAmountElement.value = totalPoints; // Set bet amount to total points
+        betAmountElement.value = score; // Set bet amount to total points
     });
 
     stopButton.addEventListener('click', () => {
+        saveUserScore(username, score);
         window.location.href = 'index.html'; // Redirect to main menu
+    });
+
+    exitButton.addEventListener('click', () => {
+        alert(`You have exited the game with ${score} points.`);
+        savePoints(score);
     });
 
     function addScore(x) {
@@ -192,24 +224,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const relativeX = slotX - canvasRect.left;
 
             if (Math.abs(relativeX - x) < rect.width / 2) {
-                const score = parseFloat(slot.dataset.value) * ballPrice;
-                totalPoints += score;
+                const earnedScore = parseFloat(slot.dataset.value) * ballPrice;
+                score += earnedScore;
                 slot.classList.add('highlight');
                 slotSound.currentTime = 0;
                 slotSound.play();
                 setTimeout(() => slot.classList.remove('highlight'), 300);
-                updatePoints();
-                updateHistory(score, getGradientColor(parseFloat(slot.dataset.value)));
+                updateScoreDisplay(score);
+                saveUserScore(username, score);
+                updateHistory(earnedScore, getGradientColor(parseFloat(slot.dataset.value)));
             }
         });
-    }
-
-    function updatePoints() {
-        pointsElement.textContent = formatNumber(totalPoints);
-    }
-
-    function formatNumber(number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     function updateHistory(score, color) {
@@ -266,11 +291,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     animate();
-
-    exitButton.addEventListener('click', () => {
-        alert(`You have exited the game with ${totalPoints} points.`);
-        savePoints(totalPoints);
-    });
 
     function savePoints(points) {
         let leaderboard = localStorage.getItem('leaderboard');

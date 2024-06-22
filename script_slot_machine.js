@@ -6,12 +6,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let score = getUserScore(username);
-    updateScore();
+    updateScoreDisplay(score);
 
     document.getElementById('spinButton').addEventListener('click', spin);
     document.getElementById('resetButton').addEventListener('click', reset);
     document.getElementById('gambleButton').addEventListener('click', gamble);
     document.getElementById('freeRespinsButton').addEventListener('click', freeReSpin);
+    document.getElementById('exit_slots').addEventListener('click', () => {
+        saveUserScore(username, score);
+        window.location.href = 'index.html';
+    });
+
+    function saveUserScore(username, score) {
+        let scores = JSON.parse(localStorage.getItem('userScores')) || {};
+        scores[username] = score;
+        localStorage.setItem('userScores', JSON.stringify(scores));
+    }
+
+    function getUserScore(username) {
+        const scores = JSON.parse(localStorage.getItem('userScores')) || {};
+        return scores[username] || 0;
+    }
+
+    function updateScoreDisplay(score) {
+        document.getElementById('score').textContent = score;
+    }
 
     function spin() {
         const betAmount = parseInt(document.getElementById('betAmount').value);
@@ -59,24 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 multiplier += 1;
             }
 
-            updateScore();
-            updateUserScore(username, score);
+            updateScoreDisplay(score);
+            saveUserScore(username, score);
         }, 2000);
-    }
-
-    function updateScore() {
-        document.getElementById('score').textContent = score;
-    }
-
-    function updateUserScore(username, score) {
-        const scores = JSON.parse(localStorage.getItem('userScores')) || {};
-        scores[username] = score;
-        localStorage.setItem('userScores', JSON.stringify(scores));
-    }
-
-    function getUserScore(username) {
-        const scores = JSON.parse(localStorage.getItem('userScores')) || {};
-        return scores[username] || 0;
     }
 
     function spinReel(reelId) {
@@ -133,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function reset() {
         score = 0;
         multiplier = 1;
-        updateScore();
+        updateScoreDisplay(score);
         for (let row = 1; row <= 5; row++) {
             for (let col = 1; col <= 5; col++) {
                 document.getElementById(`reel${row}-${col}`).textContent = '';
@@ -141,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         document.getElementById('betAmount').value = '';
         clearHighlights();
-        updateUserScore(username, score);
+        saveUserScore(username, score);
     }
 
     function gamble() {
@@ -158,8 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
             score = 0;
             alert('You lost the gamble. Your score is reset to zero.');
         }
-        updateScore();
-        updateUserScore(username, score);
+        updateScoreDisplay(score);
+        saveUserScore(username, score);
     }
 
     function freeReSpin() {
@@ -206,12 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 1000);
             }
 
-            updateScore();
-            updateUserScore(username, score);
+            updateScoreDisplay(score);
+            saveUserScore(username, score);
         }, 2000);
     }
 
     const symbols = ['🍒', '🍋', '🔔', '⭐', '💎'];
-    const multiplier = 1;
+    let multiplier = 1;
     const winRate = 0.3;
 });
